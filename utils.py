@@ -58,6 +58,8 @@ label_map = {
    "antibiotics" : {
         "true" : 1,
         "false" : 0,
+        True : 1,
+        False : 0,
     },
     "inflammationstatus" : {
         "inflamed" : 1,

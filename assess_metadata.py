@@ -58,5 +58,64 @@ for label in label_map.keys():
                                          },
                                        }
 
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+def autolabel(rects, ax):
+    """Attach a text label above each bar in *rects*, displaying its height."""
+    for rect in rects:
+        height = rect.get_height()
+        ax.annotate('{}'.format(height),
+                    xy=(rect.get_x() + rect.get_width() / 2, height),
+                    xytext=(0, 3),  # 3 points vertical offset
+                    textcoords="offset points",
+                    ha='center', va='bottom')
+
+width = 0.25
+
+labels = list(label_map.keys())
+labels.remove("race")
+labels_short = [l[0:min(len(l),10)] for l in labels]
+
+x = numpy.arange(len(labels))
+
+for loc in biopsy_locs:
+    fig = plt.figure(figsize=(10,4))
+    ax1 = fig.add_subplot(111)
+    ax1.yaxis.set_ticks_position('both') 
+    
+    n_pos = []
+    n_neg = []
+    n_miss = []
+
+    for label in labels:
+        info = metadata_summary[label][loc]
+        n_pos.append(info["n_positive"])
+        n_neg.append(info["n_negative"])
+        n_miss.append(info["missing_or_other"]["n"])
+
+    rects1 = ax1.bar(x - width, n_pos, width, label="N Positive")
+    rects2 = ax1.bar(x, n_neg, width, label="N Negative")
+    rects3 = ax1.bar(x + width, n_miss, width, label="N Missing/Other")
+
+    ax1.set_ylabel("Number of Individuals")
+    ax1.set_title("Sample Site: %s" % loc)
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(labels_short, rotation=-30)
+    ax1.legend()
+
+    autolabel(rects1, ax1)
+    autolabel(rects2, ax1)
+    autolabel(rects3, ax1)
+
+    fig.tight_layout()
+
+    ymin, ymax = ax1.get_ylim()
+    plt.ylim([0, ymax*1.1])
+
+    plt.savefig("plots/metadata_summary_%s.pdf" % loc)
+    plt.clf()
+
 with open("metadata_summary.json", "w") as f_out:
     json.dump(metadata_summary, f_out, indent=4, sort_keys=True)
