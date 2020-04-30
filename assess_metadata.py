@@ -57,7 +57,6 @@ for label in label_map.keys():
                                             "values" : list(set(z)) 
                                          },
                                        }
-        #metadata_summary[label][loc] = { "n_positive" : int(n_pos), "n_negative" : int(n_neg), "missing_or_other" : int(missing_or_other) }
 
 with open("metadata_summary.json", "w") as f_out:
     json.dump(metadata_summary, f_out, indent=4, sort_keys=True)

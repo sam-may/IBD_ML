@@ -42,7 +42,28 @@ label_map = {
     "mesalamine" : {
         "true" : 1,
         "false" : 0,
-    }
+    },
+    "race" : {
+        "african" : 1,
+        "caucasian" : 0,
+    },
+    "immunosup" : {
+        "true" : 1,
+        "false" : 0,
+    },
+    "ileal_invovlement" : {
+        "true" : 1,
+        "false" : 0,
+    },
+   "antibiotics" : {
+        "true" : 1,
+        "false" : 0,
+    },
+    "inflammationstatus" : {
+        "inflamed" : 1,
+        "non-inflamed" : 0,
+    },
+
 }
 
 def collapse_to(lst, item, default='Unassigned'):
@@ -86,3 +107,13 @@ def get_label(label, m, ind):
         return (m[m.sample_name == ind].steroids).to_numpy()[0]
     elif label == "smoking":
         return (m[m.sample_name == ind].smoking).to_numpy()[0]
+    elif label == "race":
+        return (m[m.sample_name == ind].race).to_numpy()[0]
+    elif label == "immunosup":
+        return (m[m.sample_name == ind].immunosup).to_numpy()[0]
+    elif label == "ileal_invovlement":
+        return (m[m.sample_name == ind].ileal_invovlement).to_numpy()[0]
+    elif label == "antibiotics":
+        return (m[m.sample_name == ind].antibiotics).to_numpy()[0]
+    elif label == "inflammationstatus":
+        return (m[m.sample_name == ind].inflammationstatus).to_numpy()[0]
